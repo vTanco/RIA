@@ -1,5 +1,7 @@
-from pydantic_settings import BaseSettings
-from typing import Optional
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Research Integrity Project"
@@ -10,6 +12,9 @@ class Settings(BaseSettings):
     
     # Database
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///./ria.db"
+
+    # External Services
+    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
 
     class Config:
         case_sensitive = True

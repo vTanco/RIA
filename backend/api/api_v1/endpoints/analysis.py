@@ -7,6 +7,7 @@ from backend.database.session import get_db
 from backend.database.models import User, Analysis
 from backend.schemas.api import AnalysisResponse
 from backend.api import deps
+from backend.core.config import settings
 from backend.engine.pdf_processor import extract_text_from_pdf
 from backend.engine.scorer import COIScorer
 from backend.engine.llm_wrapper import LLMWrapper
@@ -33,7 +34,7 @@ async def analyze_pdf(
         result = scorer.compute_score()
         
         # Summarize
-        llm = LLMWrapper()
+        llm = LLMWrapper(api_key=settings.OPENAI_API_KEY)
         summary = llm.summarize_risk(result, result["score"])
         
         # Save to DB
