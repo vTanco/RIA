@@ -37,3 +37,59 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         )
     access_token = security.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
+
+from starlette.requests import Request
+from backend.core.oauth import oauth
+
+@router.get("/login/{provider}")
+async def login_via_provider(provider: str, request: Request):
+    redirect_uri = request.url_for('auth_via_provider', provider=provider)
+    return await oauth.create_client(provider).authorize_redirect(request, redirect_uri)
+
+@router.get("/auth/{provider}/callback")
+async def auth_via_provider(provider: str, request: Request, db: Session = Depends(get_db)):
+    token = await oauth.create_client(provider).authorize_access_token(request)
+    user_info = token.get('userinfo')
+    
+    if not user_info:
+        # Fallback for providers that don't return userinfo in token (like Facebook sometimes)
+        client = oauth.create_client(provider)
+        if provider == 'facebook':
+            resp = await client.get('me?fields=id,name,email', token=token)
+            user_info = resp.json()
+        elif provider == 'github':
+             resp = await client.get('user', token=token)
+             user_info = resp.json()
+             user_info['email'] = user_info.get('email') # Github email might be private
+
+    if not user_info or 'email' not in user_info:
+         raise HTTPException(status_code=400, detail="Could not validate credentials")
+
+    # Check if user exists
+    user = db.query(User).filter(User.email == user_info['email']).first()
+    if not user:
+        # Create new user (password is not usable)
+        user = User(
+            email=user_info['email'],
+            hashed_password=security.get_password_hash(security.create_access_token(data={"sub": user_info['email']})) # Random hash
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    access_token = security.create_access_token(data={"sub": user.email})
+    
+    # Redirect to dashboard with token (in a real app, use a secure cookie or intermediate page)
+    # For simplicity, we'll return a script to set localStorage and redirect
+    from starlette.responses import HTMLResponse
+    html_content = f"""
+    <html>
+        <body>
+            <script>
+                localStorage.setItem('access_token', '{access_token}');
+                window.location.href = '/dashboard.html';
+            </script>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)

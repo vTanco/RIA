@@ -67,7 +67,15 @@ document.addEventListener('DOMContentLoaded', updateNav);
 document.addEventListener('click', (e) => {
     const btn = e.target.closest('.btn-social');
     if (btn) {
-        e.preventDefault(); // Prevent any default behavior
-        alert('Social login is currently in development mode. Please use email/password.');
+        e.preventDefault();
+
+        let provider = '';
+        if (btn.classList.contains('btn-google')) provider = 'google';
+        else if (btn.classList.contains('btn-facebook')) provider = 'facebook';
+        else if (btn.classList.contains('btn-apple')) provider = 'apple';
+
+        if (provider) {
+            window.location.href = `/api/auth/login/${provider}`;
+        }
     }
 });

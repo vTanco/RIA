@@ -12,3 +12,5 @@ python-dotenv
 aiofiles
 openai
 email-validator
+Authlib
+httpx
