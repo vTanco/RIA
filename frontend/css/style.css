@@ -366,3 +366,5 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+@import 'commitment.css';
