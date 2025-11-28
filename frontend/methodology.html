@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Methodology - Research Integrity Project</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .methodology-header {
+            margin-bottom: 3rem;
+        }
+
+        /* Step Card is now handled in style.css, but we keep margin here */
+        .step-card {
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .dimension-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dimension-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .rule-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .rule-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .rule-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            border-left: 4px solid var(--accent-color);
+            color: var(--text-primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo">Research Integrity Project</a>
+            <div class="nav-links">
+                <a href="/about.html" class="nav-link">About Us</a>
+                <a href="/support.html" class="nav-link">Support Us</a>
+                <div id="auth-links"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="margin-top: 2rem; padding-bottom: 4rem;">
+        <div class="methodology-header">
+            <h1>Methodology</h1>
+            <p class="text-secondary">Our transparent methodology for analyzing research integrity</p>
+        </div>
+
+        <!-- Intro -->
+        <div class="card mb-4" style="background: linear-gradient(to right, #1e293b, #0f172a); color: white;">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="background: rgba(255,255,255,0.1); padding: 0.5rem; border-radius: 8px;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 style="color: white; margin-bottom: 1rem;">Rule-Based COI Detection Algorithm</h2>
+                    <p style="opacity: 0.9; margin-bottom: 1.5rem;">
+                        Research Integrity Project uses an algorithm based on explicit rules to evaluate conflicts of
+                        interest (COI) in scientific papers.
+                        The methodology combines semantic extraction through language models with fixed rules and
+                        thresholds, following international standards (ICMJE, COPE, WAME, CONSORT, PRISMA, DOAJ).
+                    </p>
+                    <div
+                        style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                        <strong>Objective:</strong> Produce a structured estimation of COI risk and editorial
+                        credibility using only the paper's text as source, with reproducible and explainable results.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mb-4">Detection Algorithm Flow</h2>
+
+        <!-- Step 1 -->
+        <div class="card step-card">
+            <h3><span class="step-number">1</span> Ingestion and Preprocessing</h3>
+            <p class="text-secondary mt-4">The system extracts and cleans the scientific document content:</p>
+            <ul class="rule-list mt-4">
+                <li>Plain text: title, authors, affiliations, main sections</li>
+                <li>Structure detection: Abstract, Introduction, Methods, Results, Discussion, Conclusions</li>
+                <li>Key section identification: Conflict of Interest, Funding, Acknowledgements</li>
+                <li>Cleaning artifacts and duplicate spaces</li>
+            </ul>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="card step-card">
+            <h3><span class="step-number">2</span> Semantic Extraction with AI</h3>
+            <p class="text-secondary mt-4">The language model identifies structured textual facts:</p>
+
+            <div class="grid-2 mt-4">
+                <div class="dimension-box">
+                    <h4 class="mb-4">Identifies</h4>
+                    <ul class="rule-list">
+                        <li>Author and institution names</li>
+                        <li>Potential funders</li>
+                        <li>Explicit/implicit COI declarations</li>
+                        <li>Fragments about funding and sponsors</li>
+                    </ul>
+                </div>
+                <div class="dimension-box">
+                    <h4 class="mb-4">Detects</h4>
+                    <ul class="rule-list">
+                        <li>Language patterns (promotional vs critical)</li>
+                        <li>Presence/absence of limitations</li>
+                        <li>Companies, foundations, organizations</li>
+                        <li>Relationships between authors and sponsors</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box">
+                Output: A set of structured textual facts that feed the algorithm rules. The AI doesn't decide "by eye",
+                it only extracts objective information.
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="card step-card">
+            <h3><span class="step-number">3</span> Rule Application by Dimensions</h3>
+            <p class="text-secondary mt-4">From the extracted facts, scores 0-100 are calculated for each of the 5
+                dimensions.</p>
+
+            <div class="dimension-box mt-4">
+                <div class="dimension-title">1. Disclosure & Funding Transparency</div>
+                <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Transparencia de conflictos
+                    declarados y financiación</p>
+                <ul class="rule-list mt-4">
+                    <li>Sin sección COI ni funding en estudio sensible → score 75-90, nivel 'high'</li>
+                    <li>COI declarado 'no conflicts' + funding claro → score 20-35, nivel 'low'</li>
+                    <li>Funding presente pero sin mención COI → score 40-60, nivel 'medium'</li>
+                    <li>Declaraciones vagas → score 60-75, nivel 'high'</li>
+                </ul>
+            </div>
+
+            <div class="dimension-box">
+                <div class="dimension-title">2. Funding-Outcome Alignment</div>
+                <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Relación entre financiación y
+                    resultados</p>
+                <ul class="rule-list mt-4">
+                    <li>Sponsor comercial + resultados muy positivos + sin crítica → score 60-85, 'high'</li>
+                    <li>Sponsor público/académico + discusión equilibrada → score 20-40, 'low'</li>
+                    <li>Sin sponsor identificable → score 40-55, 'medium'</li>
+                    <li>Sponsor + resultados favorables + lenguaje promocional → score 70-90, 'high'</li>
+                </ul>
+            </div>
+
+            <div class="dimension-box">
+                <div class="dimension-title">3. Author-Institution-Sponsor Network</div>
+                <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Red
+                    autores-instituciones-financiadores</p>
+                <ul class="rule-list mt-4">
+                    <li>Varios autores empleados de empresa financiadora → score 70-90, 'high'</li>
+                    <li>Afiliaciones académicas diversas sin vínculos comerciales → score 20-40, 'low'</li>
+                    <li>Afiliaciones ausentes o genéricas → score 60-80, 'high'</li>
+                    <li>Institución única = sponsor → score 55-75, 'high'</li>
+                </ul>
+            </div>
+
+            <div class="dimension-box">
+                <div class="dimension-title">4. Journal / Editorial Integrity</div>
+                <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Integridad editorial y riesgo
+                    de predatory journal</p>
+                <ul class="rule-list mt-4">
+                    <li>Señales de predatory journal → score 70-90, 'high'</li>
+                    <li>Indicios de peer review, políticas éticas → score 20-40, 'low'</li>
+                    <li>Información insuficiente sobre revista → score 40-60, 'medium'</li>
+                </ul>
+            </div>
+
+            <div class="dimension-box">
+                <div class="dimension-title">5. Textual Bias & Reporting Quality</div>
+                <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Sesgos de lenguaje y calidad de
+                    reporte</p>
+                <ul class="rule-list mt-4">
+                    <li>Lenguaje promocional + sin limitaciones → score 60-80, 'high'</li>
+                    <li>Lenguaje sobrio + limitaciones honestas → score 20-40, 'low'</li>
+                    <li>Falta de transparencia metodológica (CONSORT/PRISMA) → +10-20 puntos</li>
+                    <li>Autocitación excesiva + tono promocional → score 55-75, 'high'</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="card step-card">
+            <h3><span class="step-number">4</span> Global Score Calculation</h3>
+            <p class="text-secondary mt-4">The global score and risk level are calculated:</p>
+
+            <div
+                style="background: #1e293b; color: #10b981; padding: 1rem; border-radius: 8px; font-family: monospace; margin: 1rem 0;">
+                overall_score = (dim1 + dim2 + dim3 + dim4 + dim5) / 5
+            </div>
+
+            <div
+                style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; text-align: center; margin-top: 1rem;">
+                <div style="border: 1px solid #10b981; color: #10b981; padding: 0.5rem; border-radius: 4px;">
+                    <strong>0-33</strong><br>LOW
+                </div>
+                <div style="border: 1px solid #f59e0b; color: #f59e0b; padding: 0.5rem; border-radius: 4px;">
+                    <strong>34-66</strong><br>MEDIUM
+                </div>
+                <div style="border: 1px solid #ef4444; color: #ef4444; padding: 0.5rem; border-radius: 4px;">
+                    <strong>67-100</strong><br>HIGH
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="card step-card">
+            <h3><span class="step-number">5</span> Report Generation</h3>
+            <p class="text-secondary mt-4">The model writes a report in natural language with fixed structure:</p>
+            <div class="grid-2 mt-4" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="text-center p-4"
+                    style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <strong>Fixed Structure</strong><br>
+                    <span class="text-secondary text-sm">Always the same sections</span>
+                </div>
+                <div class="text-center p-4"
+                    style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <strong>Stable Labels</strong><br>
+                    <span class="text-secondary text-sm">Consistent levels</span>
+                </div>
+                <div class="text-center p-4"
+                    style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px;">
+                    <strong>Explicit Rules</strong><br>
+                    <span class="text-secondary text-sm">Direct references</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Role of AI -->
+        <div class="card mb-4">
+            <h3 class="mb-4">Role of the AI Model</h3>
+            <p class="text-secondary mb-4">The AI does not decide risk levels by intuition. Its specific function is:
+            </p>
+            <div class="grid-2" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div style="border-left: 3px solid var(--primary-color); padding-left: 1rem;">
+                    <strong>1. Extract</strong><br>
+                    <span class="text-secondary text-sm">Information from text</span>
+                </div>
+                <div style="border-left: 3px solid #8b5cf6; padding-left: 1rem;">
+                    <strong>2. Map</strong><br>
+                    <span class="text-secondary text-sm">Findings to predefined rules</span>
+                </div>
+                <div style="border-left: 3px solid #10b981; padding-left: 1rem;">
+                    <strong>3. Draft</strong><br>
+                    <span class="text-secondary text-sm">Report with fixed structure</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Limitations -->
+        <div class="card mb-4" style="border: 1px solid #f59e0b;">
+            <h3 class="mb-4" style="color: #d97706;">Current Algorithm Limitations</h3>
+            <ul class="rule-list">
+                <li>Based solely on the available paper's textual content</li>
+                <li>No access to external COI forms, trial registries, or external databases</li>
+                <li>Predatory journal detection is approximate</li>
+                <li>The algorithm indicates COI risk, does not prove its legal existence</li>
+                <li>Tool for critical reading and activism, not a court of truth</li>
+            </ul>
+        </div>
+
+        <!-- Privacy -->
+        <div class="card">
+            <h3 class="mb-4">Privacy & Data Security</h3>
+            <div class="grid-2">
+                <div>
+                    <strong>What We Store:</strong>
+                    <ul class="rule-list mt-2">
+                        <li>Analysis results and metadata</li>
+                        <li>Paper titles and author information</li>
+                        <li>Detected conflicts and recommendations</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>What We Don't Store:</strong>
+                    <ul class="rule-list mt-2">
+                        <li>Full PDF file contents permanently</li>
+                        <li>Personal user information</li>
+                        <li>Analysis IP addresses or tracking data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

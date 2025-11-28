@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Research Integrity Project</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/" class="logo">
+                <img src="/img/logo.jpg" alt="Research Integrity Project Logo"
+                    style="height: 32px; border-radius: 6px;">
+                Research Integrity Project
+            </a>
+            <div class="nav-links">
+                <a href="/methodology.html" class="nav-link">Methodology</a>
+                <div id="auth-links"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="margin-top: 2rem;">
+        <div class="card">
+            <h2 class="mb-4">New Analysis</h2>
+            <div class="upload-zone" id="drop-zone">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="color: var(--primary-color); margin-bottom: 1rem;">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                <h3>Upload PDF Paper</h3>
+                <p class="text-secondary mb-4">Drag & drop or click to browse</p>
+                <input type="file" id="file-input" accept=".pdf" style="display: none;">
+                <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">Select
+                    File</button>
+            </div>
+
+            <div id="loading" class="hidden text-center mt-4">
+                <p>Analyzing paper... This may take a moment.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Recent Activity</h3>
+            <div id="recent-list">
+                <p class="text-secondary">Loading...</p>
+            </div>
+            <div class="mt-4">
+                <a href="/history.html" class="btn btn-outline">View Full History</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script>
+        // Dashboard Logic
+        if (!isLoggedIn()) {
+            window.location.href = '/login.html';
+        }
+
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const loading = document.getElementById('loading');
+
+        fileInput.addEventListener('change', handleUpload);
+
+        async function handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            loading.classList.remove('hidden');
+            dropZone.classList.add('hidden');
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await apiCall('/analyze/pdf', 'POST', formData, true);
+                if (response.ok) {
+                    const data = await response.json();
+                    // Store result in local storage to pass to report page
+                    localStorage.setItem('current_report', JSON.stringify(data));
+                    window.location.href = '/report.html';
+                } else {
+                    alert('Analysis failed. Please try again.');
+                    loading.classList.add('hidden');
+                    dropZone.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred.');
+                loading.classList.add('hidden');
+                dropZone.classList.remove('hidden');
+            }
+        }
+
+        // Load recent activity
+        async function loadRecent() {
+            const response = await apiCall('/history?limit=5');
+            if (response && response.ok) {
+                const data = await response.json();
+                const list = document.getElementById('recent-list');
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="text-secondary">No analyses yet.</p>';
+                    return;
+                }
+                list.innerHTML = data.map(item => `
+                    <div style="display: flex; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid #e2e8f0;">
+                        <div>
+                            <strong>${item.filename}</strong>
+                            <br>
+                            <span class="text-secondary" style="font-size: 0.9rem;">${new Date(item.upload_date).toLocaleDateString()}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span class="badge badge-${item.overall_risk}">${item.overall_risk} Risk</span>
+                            <button onclick="viewReport(${item.id})" class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function viewReport(id) {
+            // In a real app, fetch by ID. For now, we just redirect to history or need an endpoint to get by ID.
+            // Simplified: redirect to history
+            window.location.href = '/history.html';
+        }
+
+        loadRecent();
+    </script>
+</body>
+
+</html>

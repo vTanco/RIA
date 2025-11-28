@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>History - Research Integrity Project</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/dashboard.html" class="logo">Research Integrity Project</a>
+            <div class="nav-links">
+                <a href="/dashboard.html" class="nav-link">Dashboard</a>
+                <div id="auth-links"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="margin-top: 2rem;">
+        <div class="card">
+            <h2 class="mb-4">Analysis History</h2>
+            <div id="history-list">
+                <p class="text-secondary">Loading...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script>
+        if (!isLoggedIn()) {
+            window.location.href = '/login.html';
+        }
+
+        async function loadHistory() {
+            const response = await apiCall('/history');
+            if (response && response.ok) {
+                const data = await response.json();
+                const list = document.getElementById('history-list');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="text-secondary">No analyses found.</p>';
+                    return;
+                }
+
+                list.innerHTML = `
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 2px solid #e2e8f0;">
+                                <th style="padding: 1rem;">Date</th>
+                                <th style="padding: 1rem;">Filename</th>
+                                <th style="padding: 1rem;">Risk</th>
+                                <th style="padding: 1rem;">Score</th>
+                                <th style="padding: 1rem;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.map(item => `
+                                <tr style="border-bottom: 1px solid #e2e8f0;">
+                                    <td style="padding: 1rem;">${new Date(item.upload_date).toLocaleDateString()}</td>
+                                    <td style="padding: 1rem;">${item.filename}</td>
+                                    <td style="padding: 1rem;"><span class="badge badge-${item.overall_risk}">${item.overall_risk}</span></td>
+                                    <td style="padding: 1rem;">${item.score}</td>
+                                    <td style="padding: 1rem;">
+                                        <button onclick='viewReport(${JSON.stringify(item).replace(/'/g, "&#39;")})' class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">View</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+
+        function viewReport(item) {
+            localStorage.setItem('current_report', JSON.stringify(item));
+            window.location.href = '/report.html';
+        }
+
+        loadHistory();
+    </script>
+</body>
+
+</html>

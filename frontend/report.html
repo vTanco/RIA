@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Report - Research Integrity Project</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="/dashboard.html" class="logo">Research Integrity Project</a>
+            <div class="nav-links">
+                <a href="/dashboard.html" class="nav-link">Back to Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container" style="margin-top: 2rem;">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h1 id="filename" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Report</h1>
+                    <p class="text-secondary" id="date"></p>
+                </div>
+                <div id="risk-badge" class="badge" style="font-size: 1.2rem; padding: 0.5rem 1.5rem;"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-top: 2rem;">
+                <!-- Score Chart -->
+                <div style="text-align: center;">
+                    <div style="position: relative; height: 200px; width: 200px; margin: 0 auto;">
+                        <canvas id="scoreChart"></canvas>
+                        <div
+                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-weight: 700;">
+                            <span id="score-val">0</span>/100
+                        </div>
+                    </div>
+                    <p class="text-secondary mt-4">Overall Risk Score</p>
+                </div>
+
+                <!-- Summary -->
+                <div>
+                    <h3>Executive Summary</h3>
+                    <p id="summary" class="text-secondary" style="margin-top: 1rem;"></p>
+
+                    <h3 class="mt-4">Key Findings</h3>
+                    <ul id="rules-list" style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-secondary);">
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dimensions -->
+            <h3 class="mt-4 mb-4">Detailed Dimensions</h3>
+            <div id="dimensions-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+    <script>
+        const data = JSON.parse(localStorage.getItem('current_report'));
+
+        if (!data) {
+            window.location.href = '/dashboard.html';
+        }
+
+        // Populate Data
+        document.getElementById('filename').textContent = data.filename;
+        document.getElementById('date').textContent = new Date().toLocaleDateString();
+
+        const badge = document.getElementById('risk-badge');
+        badge.textContent = `${data.overall_risk.toUpperCase()} RISK`;
+        badge.classList.add(`badge-${data.overall_risk}`);
+
+        document.getElementById('score-val').textContent = data.score;
+        document.getElementById('summary').textContent = data.summary;
+
+        const rulesList = document.getElementById('rules-list');
+        if (data.full_result.rules_triggered.length > 0) {
+            rulesList.innerHTML = data.full_result.rules_triggered.map(r => `<li>${r}</li>`).join('');
+        } else {
+            rulesList.innerHTML = '<li>No specific high-risk rules triggered.</li>';
+        }
+
+        // Dimensions
+        const dimGrid = document.getElementById('dimensions-grid');
+        dimGrid.innerHTML = data.full_result.categories.map(cat => `
+            <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px;">
+                <div style="font-size: 0.9rem; color: var(--text-secondary);">${cat.name}</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">${cat.score}</div>
+            </div>
+        `).join('');
+
+        // Chart
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Risk', 'Safety'],
+                datasets: [{
+                    data: [data.score, 100 - data.score],
+                    backgroundColor: [
+                        data.score > 66 ? '#ef4444' : data.score > 33 ? '#f59e0b' : '#10b981',
+                        '#e2e8f0'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '80%',
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>
+</body>
+
+</html>
