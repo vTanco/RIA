@@ -366,3 +366,104 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Our Commitment Section */
+.commitment-section {
+    background-color: #111827;
+    /* Very dark blue/gray, almost black */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.commitment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.commitment-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.commitment-card {
+    background-color: rgba(30, 41, 59, 0.3);
+    /* Transparent dark background */
+    border: 1px solid;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.commitment-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: white;
+}
+
+.commitment-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.card-icon {
+    margin-bottom: 1rem;
+}
+
+/* Card Themes */
+.card-blue {
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.card-blue .card-icon {
+    color: #60a5fa;
+    /* Blue 400 */
+}
+
+.card-purple {
+    border-color: rgba(168, 85, 247, 0.3);
+}
+
+.card-purple .card-icon {
+    color: #c084fc;
+    /* Purple 400 */
+}
+
+.card-green {
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.card-green .card-icon {
+    color: #4ade80;
+    /* Green 400 */
+}
+
+.commitment-quote {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+    .commitment-grid {
+        grid-template-columns: 1fr;
+    }
+}
