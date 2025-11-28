@@ -467,3 +467,84 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Social Login */
+.social-login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.social-login-divider::before,
+.social-login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+    opacity: 0.5;
+}
+
+.social-login-divider::before {
+    margin-right: 1rem;
+}
+
+.social-login-divider::after {
+    margin-left: 1rem;
+}
+
+.social-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(30, 41, 59, 0.4);
+    color: var(--text-primary);
+    position: relative;
+    backdrop-filter: blur(8px);
+}
+
+.btn-social:hover {
+    background-color: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-social svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 1rem;
+}
+
+/* Specific Social Button Styles */
+.btn-google:hover {
+    box-shadow: 0 4px 12px rgba(219, 68, 55, 0.2);
+    border-color: rgba(219, 68, 55, 0.4);
+}
+
+.btn-apple:hover {
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-facebook:hover {
+    box-shadow: 0 4px 12px rgba(66, 103, 178, 0.2);
+    border-color: rgba(66, 103, 178, 0.4);
+}

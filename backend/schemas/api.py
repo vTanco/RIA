@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
@@ -6,6 +6,15 @@ from datetime import datetime
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
+
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters long')
+        if not any(char in "!@#$%^&*(),.?\":{}|<>" for char in v):
+            raise ValueError('Password must contain at least one special character')
+        return v
 
 class UserLogin(BaseModel):
     email: EmailStr
