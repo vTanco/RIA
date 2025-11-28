@@ -63,11 +63,11 @@ async function apiCall(endpoint, method = 'GET', body = null, isFile = false) {
 document.addEventListener('DOMContentLoaded', updateNav);
 
 // Social Login Handler
-document.addEventListener('DOMContentLoaded', () => {
-    const socialButtons = document.querySelectorAll('.btn-social');
-    socialButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            alert('Social login is currently in development mode. Please use email/password.');
-        });
-    });
+// Social Login Handler (Event Delegation)
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-social');
+    if (btn) {
+        e.preventDefault(); // Prevent any default behavior
+        alert('Social login is currently in development mode. Please use email/password.');
+    }
 });
