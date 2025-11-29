@@ -418,22 +418,58 @@
         </div>
 
         <!-- Role of AI -->
-        <div class="card mb-4">
-            <h3 class="mb-4">Role of the AI Model</h3>
-            <p class="text-secondary mb-4">The AI does not decide risk levels by intuition. Its specific function is:
-            </p>
-            <div class="grid-2" style="grid-template-columns: 1fr 1fr 1fr;">
-                <div style="border-left: 3px solid var(--primary-color); padding-left: 1rem;">
-                    <strong>1. Extract</strong><br>
-                    <span class="text-secondary text-sm">Information from text</span>
+        <div class="card mb-4" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+            <h3 class="mb-4 text-gradient" style="font-size: 2rem; text-align: center;">Role of the AI Model</h3>
+            <p class="text-secondary mb-4" style="text-align: center; max-width: 600px; margin: 0 auto 2rem;">The AI
+                does not decide risk levels by intuition. Its specific function is:</p>
+
+            <div class="bento-grid">
+                <div class="feature-card fade-in-up delay-100" data-spotlight
+                    style="border-color: rgba(59, 130, 246, 0.3);">
+                    <div class="feature-card-content">
+                        <div class="icon-box" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">1. Extract</h3>
+                        <p class="text-secondary">Information from text</p>
+                    </div>
                 </div>
-                <div style="border-left: 3px solid #8b5cf6; padding-left: 1rem;">
-                    <strong>2. Map</strong><br>
-                    <span class="text-secondary text-sm">Findings to predefined rules</span>
+
+                <div class="feature-card fade-in-up delay-200" data-spotlight
+                    style="border-color: rgba(139, 92, 246, 0.3);">
+                    <div class="feature-card-content">
+                        <div class="icon-box" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">2. Map</h3>
+                        <p class="text-secondary">Findings to predefined rules</p>
+                    </div>
                 </div>
-                <div style="border-left: 3px solid #10b981; padding-left: 1rem;">
-                    <strong>3. Draft</strong><br>
-                    <span class="text-secondary text-sm">Report with fixed structure</span>
+
+                <div class="feature-card fade-in-up delay-300" data-spotlight
+                    style="border-color: rgba(16, 185, 129, 0.3);">
+                    <div class="feature-card-content">
+                        <div class="icon-box" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">3. Draft</h3>
+                        <p class="text-secondary">Report with fixed structure</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -451,30 +487,35 @@
         </div>
 
         <!-- Privacy -->
-        <div class="card">
-            <h3 class="mb-4">Privacy & Data Security</h3>
-            <div class="grid-2">
-                <div>
-                    <strong>What We Store:</strong>
-                    <ul class="rule-list mt-2">
-                        <li>Analysis results and metadata</li>
-                        <li>Paper titles and author information</li>
-                        <li>Detected conflicts and recommendations</li>
-                    </ul>
+        <div class="card" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+            <h3 class="mb-4 text-gradient" style="font-size: 2rem; text-align: center;">Privacy & Data Security</h3>
+            <div class="bento-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="feature-card fade-in-up delay-100" data-spotlight>
+                    <div class="feature-card-content">
+                        <h4 class="mb-4" style="color: var(--text-primary);">What We Store:</h4>
+                        <ul class="rule-list mt-2">
+                            <li>Analysis results and metadata</li>
+                            <li>Paper titles and author information</li>
+                            <li>Detected conflicts and recommendations</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <strong>What We Don't Store:</strong>
-                    <ul class="rule-list mt-2">
-                        <li>Full PDF file contents permanently</li>
-                        <li>Personal user information</li>
-                        <li>Analysis IP addresses or tracking data</li>
-                    </ul>
+                <div class="feature-card fade-in-up delay-200" data-spotlight>
+                    <div class="feature-card-content">
+                        <h4 class="mb-4" style="color: var(--text-primary);">What We Don't Store:</h4>
+                        <ul class="rule-list mt-2">
+                            <li>Full PDF file contents permanently</li>
+                            <li>Personal user information</li>
+                            <li>Analysis IP addresses or tracking data</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
     </main>
     <script src="/js/app.js"></script>
+    <script src="/js/spotlight.js"></script>
     <script>
         // Modal Logic
         const modal = document.getElementById('db-modal');

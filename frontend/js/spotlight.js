@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.feature-card');
+    const cards = document.querySelectorAll('[data-spotlight]');
 
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
