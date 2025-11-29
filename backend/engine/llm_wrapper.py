@@ -27,6 +27,7 @@ class LLMWrapper:
             - Funding: {analysis_result.get('evidence', {}).get('funding', [])}
             - COI Statements: {analysis_result.get('evidence', {}).get('coi_statements', [])}
             - Affiliations: {analysis_result.get('evidence', {}).get('affiliations', [])}
+            - Predatory Journal Check: {analysis_result.get('evidence', {}).get('predatory_check', 'Not detected')}
             - Rules Triggered: {analysis_result.get('rules_triggered', [])}
             
             Task:

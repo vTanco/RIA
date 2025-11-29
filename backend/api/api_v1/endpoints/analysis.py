@@ -30,7 +30,7 @@ async def analyze_pdf(
         text, file_hash = extract_text_from_pdf(temp_path)
         
         # Score
-        scorer = COIScorer(text)
+        scorer = COIScorer(text, db=db)
         result = scorer.compute_score()
         
         # Summarize
@@ -65,3 +65,15 @@ def get_history(
 ):
     analyses = db.query(Analysis).filter(Analysis.user_id == current_user.id).offset(skip).limit(limit).all()
     return analyses
+
+from backend.engine.predatory_updater import PredatoryJournalUpdater
+
+@router.post("/admin/update-predatory-list")
+def update_predatory_list(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(deps.get_current_user)
+):
+    # In a real app, check for admin role
+    updater = PredatoryJournalUpdater(db)
+    count = updater.update_database()
+    return {"message": f"Updated {count} predatory journals"}

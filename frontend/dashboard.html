@@ -39,8 +39,63 @@
                     File</button>
             </div>
 
-            <div id="loading" class="hidden text-center mt-4">
-                <p>Analyzing paper... This may take a moment.</p>
+            <div id="loading" class="hidden text-center mt-4" style="padding: 2rem 0;">
+                <!-- Circular Spinner -->
+                <div class="spinner-container mb-4">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                </div>
+
+                <!-- Title & Subtitle -->
+                <h3 class="mb-2">Analyzing Scientific Paper</h3>
+                <p class="text-secondary mb-4">Our AI system is evaluating the document for conflicts of interest</p>
+
+                <!-- Progress Bar -->
+                <div class="progress-container mb-4">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span id="progress-text" style="font-size: 0.9rem; font-weight: 500;">Validating document
+                            type...</span>
+                        <span id="progress-percent" style="color: var(--primary-color); font-weight: 700;">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Steps Grid -->
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-item active" id="step-1">
+                        <div class="step-icon">1</div>
+                        <div class="step-label">Loading</div>
+                        <div class="step-desc">Uploading document</div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="step-item" id="step-2">
+                        <div class="step-icon">2</div>
+                        <div class="step-label">Extracting</div>
+                        <div class="step-desc">Analyzing content</div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="step-item" id="step-3">
+                        <div class="step-icon">3</div>
+                        <div class="step-label">Evaluating</div>
+                        <div class="step-desc">Detecting conflicts</div>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="step-item" id="step-4">
+                        <div class="step-icon">4</div>
+                        <div class="step-label">Finishing</div>
+                        <div class="step-desc">Generating report</div>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="mt-4 text-secondary" style="font-size: 0.9rem;">
+                    <span>⏱ Estimated time: 30-60 seconds</span>
+                </div>
             </div>
         </div>
 
@@ -75,22 +130,93 @@
             loading.classList.remove('hidden');
             dropZone.classList.add('hidden');
 
+            // Start Progress Simulation
+            let progress = 0;
+            const progressFill = document.getElementById('progress-bar-fill');
+            const progressText = document.getElementById('progress-text');
+            const progressPercent = document.getElementById('progress-percent');
+
+            const steps = [
+                document.getElementById('step-1'),
+                document.getElementById('step-2'),
+                document.getElementById('step-3'),
+                document.getElementById('step-4')
+            ];
+
+            const updateProgress = (val, text, stepIndex) => {
+                progress = val;
+                progressFill.style.width = `${val}%`;
+                progressPercent.textContent = `${val}%`;
+                if (text) progressText.textContent = text;
+
+                // Update Steps
+                steps.forEach((step, idx) => {
+                    if (idx < stepIndex) {
+                        step.classList.remove('active');
+                        step.classList.add('completed');
+                        step.querySelector('.step-icon').innerHTML = '✓';
+                    } else if (idx === stepIndex) {
+                        step.classList.add('active');
+                        step.classList.remove('completed');
+                        step.querySelector('.step-icon').textContent = idx + 1;
+                    } else {
+                        step.classList.remove('active', 'completed');
+                        step.querySelector('.step-icon').textContent = idx + 1;
+                    }
+                });
+            };
+
+            // Simulation Interval
+            const interval = setInterval(() => {
+                if (progress < 90) {
+                    let increment = Math.random() * 5;
+                    let newProgress = Math.min(progress + increment, 90);
+
+                    let text = progressText.textContent;
+                    let stepIdx = 0;
+
+                    if (newProgress > 25 && newProgress <= 50) {
+                        text = "Extracting document text...";
+                        stepIdx = 1;
+                    } else if (newProgress > 50 && newProgress <= 75) {
+                        text = "Analyzing conflicts of interest...";
+                        stepIdx = 2;
+                    } else if (newProgress > 75) {
+                        text = "Generating report...";
+                        stepIdx = 3;
+                    }
+
+                    updateProgress(Math.floor(newProgress), text, stepIdx);
+                }
+            }, 500);
+
             const formData = new FormData();
             formData.append('file', file);
 
             try {
                 const response = await apiCall('/analyze/pdf', 'POST', formData, true);
+
+                clearInterval(interval); // Stop simulation
+
                 if (response.ok) {
+                    updateProgress(100, "Analysis Complete!", 3);
+                    steps[3].classList.add('completed');
+                    steps[3].querySelector('.step-icon').innerHTML = '🎉';
+
                     const data = await response.json();
-                    // Store result in local storage to pass to report page
                     localStorage.setItem('current_report', JSON.stringify(data));
-                    window.location.href = '/report.html';
+
+                    // Small delay to show 100%
+                    setTimeout(() => {
+                        window.location.href = '/report.html';
+                    }, 1000);
                 } else {
                     alert('Analysis failed. Please try again.');
                     loading.classList.add('hidden');
                     dropZone.classList.remove('hidden');
                 }
             } catch (error) {
+                clearInterval(interval);
                 console.error(error);
                 alert('An error occurred.');
                 loading.classList.add('hidden');

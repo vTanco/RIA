@@ -1,11 +1,16 @@
-from backend.engine.extractors import EvidenceExtractor
+from backend.engine.extractors import EvidenceExtractor, MetadataExtractor
+from backend.engine.predatory_detector import PredatoryJournalDetector
+from sqlalchemy.orm import Session
 from typing import Dict, Any, List
 
 class COIScorer:
-    def __init__(self, text: str):
+    def __init__(self, text: str, db: Session = None):
         self.extractor = EvidenceExtractor(text)
+        self.metadata_extractor = MetadataExtractor(text)
+        self.db = db
         self.evidence = {}
         self.rules_triggered = []
+        self.metadata = {}
 
     def compute_score(self) -> Dict[str, Any]:
         # Extract evidence
@@ -13,22 +18,31 @@ class COIScorer:
         coi_statements = self.extractor.extract_coi_statement()
         affiliations = self.extractor.extract_affiliations()
         
+        # Extract Metadata
+        self.metadata = self.metadata_extractor.extract_metadata()
+        
         self.evidence = {
             "funding": funding,
             "coi_statements": coi_statements,
-            "affiliations": affiliations
+            "affiliations": affiliations,
+            "metadata": self.metadata
         }
 
         # Calculate Dimension Scores
         d1 = self._score_d1_transparency(funding, coi_statements)
         d2 = self._score_d2_funding_alignment(funding)
         d3 = self._score_d3_network(affiliations)
-        d4 = self._score_d4_journal() # Placeholder
-        d5 = self._score_d5_bias() # Placeholder
+        d4 = self._score_d4_journal() 
+        d5 = self._score_d5_bias() 
 
         # Overall Score
         overall_score = int((d1 + d2 + d3 + d4 + d5) / 5)
         
+        # Override if Predatory Journal
+        if self.evidence.get("predatory_check", {}).get("predatory_flag"):
+            overall_score = max(overall_score, 100) # Force max risk
+            self.rules_triggered.append("CRITICAL: Predatory Journal Detected. Risk set to High.")
+
         risk_level = "low"
         if overall_score >= 67:
             risk_level = "high"
@@ -94,9 +108,22 @@ class COIScorer:
         return min(score, 100)
 
     def _score_d4_journal(self) -> int:
-        # Placeholder: In a real app, check against DOAJ/Scopus API
-        # For now, return a neutral low risk
-        return 10
+        score = 0
+        if self.db:
+            detector = PredatoryJournalDetector(self.db)
+            result = detector.detect(self.metadata)
+            
+            if result["predatory_flag"]:
+                score = 100 # High risk
+                self.rules_triggered.append(f"Predatory Journal Detected: {result['details']}")
+                self.evidence["predatory_check"] = result
+            else:
+                score = 10 # Low risk
+                self.evidence["predatory_check"] = result
+        else:
+            score = 10 # Default if no DB
+            
+        return score
 
     def _score_d5_bias(self) -> int:
         # Placeholder: Check for promotional language

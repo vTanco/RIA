@@ -20,6 +20,26 @@
     </nav>
 
     <main class="container" style="margin-top: 2rem;">
+        <!-- Predatory Alert -->
+        <div id="predatory-alert" class="card"
+            style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; display: none; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="background: #ef4444; color: white; padding: 0.5rem; border-radius: 50%;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                        </path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h3 style="color: #ef4444; margin-bottom: 0.25rem;">Predatory Journal Detected</h3>
+                    <p class="text-secondary" id="predatory-details" style="color: #b91c1c;"></p>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: start;">
                 <div>
@@ -67,6 +87,14 @@
 
         if (!data) {
             window.location.href = '/dashboard.html';
+        }
+
+        // Check for Predatory Journal
+        if (data.full_result.evidence.predatory_check && data.full_result.evidence.predatory_check.predatory_flag) {
+            const alertBox = document.getElementById('predatory-alert');
+            const details = document.getElementById('predatory-details');
+            alertBox.style.display = 'block';
+            details.textContent = `This paper appears to be published in a predatory journal. ${data.full_result.evidence.predatory_check.details}`;
         }
 
         // Populate Data

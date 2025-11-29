@@ -30,3 +30,14 @@ class Analysis(Base):
     full_result = Column(JSON)
 
     owner = relationship("User", back_populates="analyses")
+
+class PredatoryJournal(Base):
+    __tablename__ = "predatory_journals"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    issn = Column(String, index=True, nullable=True)
+    publisher = Column(String, index=True, nullable=True)
+    source = Column(String) # beall, predatoryjournals, etc.
+    url = Column(String, nullable=True)
+    last_updated = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())

@@ -175,6 +175,39 @@
                 it only extracts objective information.
             </div>
         </div>
+        </div>
+
+        <!-- Step 2.5 -->
+        <div class="card step-card" style="border: 1px solid #ef4444; background: rgba(239, 68, 68, 0.05);">
+            <h3><span class="step-number" style="background: #ef4444;">!</span> Predatory Journal Detection Module</h3>
+            <p class="text-secondary mt-4">A specialized module runs in parallel to detect potential predatory
+                publishing practices:</p>
+
+            <div class="grid-2 mt-4">
+                <div class="dimension-box" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h4 class="mb-4" style="color: #ef4444;">1. Metadata Extraction</h4>
+                    <p class="text-secondary text-sm">The system extracts specific metadata from the PDF:</p>
+                    <ul class="rule-list">
+                        <li><strong>ISSN</strong> (International Standard Serial Number)</li>
+                        <li><strong>Journal Name</strong> (Normalized)</li>
+                        <li><strong>Publisher Name</strong></li>
+                    </ul>
+                </div>
+                <div class="dimension-box" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <h4 class="mb-4" style="color: #ef4444;">2. Blacklist Matching</h4>
+                    <p class="text-secondary text-sm">Cross-references extracted data against curated blacklists:</p>
+                    <ul class="rule-list">
+                        <li><strong>Beall's List</strong> (Archived)</li>
+                        <li><strong>PredatoryJournals.org</strong></li>
+                        <li><strong>Community Contributed Lists</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box" style="border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+                <strong>Impact:</strong> If a match is found (by ISSN, Name, or Publisher), the paper is immediately
+                flagged as <strong>HIGH RISK (Score 100)</strong>, overriding other dimension scores.
+            </div>
+        </div>
 
         <!-- Step 3 -->
         <div class="card step-card">
@@ -223,7 +256,8 @@
                 <p class="text-secondary" style="font-style: italic; font-size: 0.9rem;">Integridad editorial y riesgo
                     de predatory journal</p>
                 <ul class="rule-list mt-4">
-                    <li>Señales de predatory journal → score 70-90, 'high'</li>
+                    <li><strong>Predatory Journal Detected (Blacklist) → score 100, 'high' (CRITICAL)</strong></li>
+                    <li>Señales de predatory journal (texto) → score 70-90, 'high'</li>
                     <li>Indicios de peer review, políticas éticas → score 20-40, 'low'</li>
                     <li>Información insuficiente sobre revista → score 40-60, 'medium'</li>
                 </ul>
@@ -316,7 +350,7 @@
             <ul class="rule-list">
                 <li>Based solely on the available paper's textual content</li>
                 <li>No access to external COI forms, trial registries, or external databases</li>
-                <li>Predatory journal detection is approximate</li>
+                <li>Predatory journal detection is based on known blacklists (may not cover new journals)</li>
                 <li>The algorithm indicates COI risk, does not prove its legal existence</li>
                 <li>Tool for critical reading and activism, not a court of truth</li>
             </ul>
