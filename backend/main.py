@@ -20,10 +20,11 @@ app.add_middleware(
 )
 
 # API Router
-from backend.api.api_v1.endpoints import auth, analysis
+from backend.api.api_v1.endpoints import auth, analysis, data
 
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(analysis.router, prefix="/api", tags=["analysis"])
+app.include_router(data.router, prefix="/api/data", tags=["data"])
 
 @app.get("/api/health")
 def health_check():

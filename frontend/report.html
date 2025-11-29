@@ -19,8 +19,99 @@
         </div>
     </nav>
 
-    <main class="container" style="margin-top: 2rem;">
-        <!-- Predatory Alert -->
+    <main class="container" style="margin-top: 2rem; max-width: 1000px;">
+
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem;">Analysis Results</h1>
+                <p class="text-secondary" id="analysis-date">Analyzed on ...</p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-secondary" onclick="window.print()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="margin-right: 0.5rem;">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export PDF
+                </button>
+                <button class="btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="margin-right: 0.5rem;">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                    Send Email
+                </button>
+                <a href="/dashboard.html" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        style="margin-right: 0.5rem;">
+                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+                    </svg>
+                    New Analysis
+                </a>
+            </div>
+        </div>
+
+        <!-- Paper Info Card -->
+        <div class="card" style="margin-bottom: 2rem; border: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="color: var(--primary-color); margin-top: 0.25rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <div>
+                    <h2 id="paper-title" style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Loading
+                        Title...</h2>
+                    <div
+                        style="display: flex; flex-wrap: wrap; gap: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span id="paper-authors">Unknown Authors</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 1-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                            <span id="paper-journal">Unknown Journal</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span id="paper-year">Unknown Year</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            <span id="paper-predatory-status" class="badge"
+                                style="font-size: 0.8rem; padding: 0.25rem 0.75rem;">Checking...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Predatory Alert (Conditional) -->
         <div id="predatory-alert" class="card"
             style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; display: none; margin-bottom: 2rem;">
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -40,45 +131,76 @@
             </div>
         </div>
 
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: start;">
-                <div>
-                    <h1 id="filename" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Report</h1>
-                    <p class="text-secondary" id="date"></p>
+        <!-- Overall Risk Assessment -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"
+                        id="risk-icon">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                        </path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <h2 style="font-size: 1.5rem; font-weight: 700;" id="risk-title">Medium Risk</h2>
                 </div>
-                <div id="risk-badge" class="badge" style="font-size: 1.2rem; padding: 0.5rem 1.5rem;"></div>
+                <p class="text-secondary">Overall COI Risk Assessment</p>
+                <div id="risk-badge-container" style="margin-top: 1rem;">
+                    <span id="risk-badge" class="badge badge-medium"
+                        style="font-size: 1rem; padding: 0.5rem 1.5rem; text-transform: uppercase; letter-spacing: 1px;">MEDIUM</span>
+                </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-top: 2rem;">
-                <!-- Score Chart -->
-                <div style="text-align: center;">
-                    <div style="position: relative; height: 200px; width: 200px; margin: 0 auto;">
-                        <canvas id="scoreChart"></canvas>
-                        <div
-                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2rem; font-weight: 700;">
-                            <span id="score-val">0</span>/100
-                        </div>
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; align-items: center;">
+                <!-- Gauge -->
+                <div style="position: relative; width: 160px; height: 160px; margin: 0 auto;">
+                    <canvas id="scoreChart"></canvas>
+                    <div
+                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 700; line-height: 1;" id="score-val">37</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary);">/ 100</div>
                     </div>
-                    <p class="text-secondary mt-4">Overall Risk Score</p>
                 </div>
 
-                <!-- Summary -->
+                <!-- Executive Summary -->
                 <div>
-                    <h3>Executive Summary</h3>
-                    <p id="summary" class="text-secondary" style="margin-top: 1rem;"></p>
-
-                    <h3 class="mt-4">Key Findings</h3>
-                    <ul id="rules-list" style="margin-top: 1rem; padding-left: 1.5rem; color: var(--text-secondary);">
-                    </ul>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem;">Executive Summary</h3>
+                    <p id="summary" class="text-secondary" style="line-height: 1.6;">
+                        Loading summary...
+                    </p>
                 </div>
-            </div>
-
-            <!-- Dimensions -->
-            <h3 class="mt-4 mb-4">Detailed Dimensions</h3>
-            <div id="dimensions-grid"
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
             </div>
         </div>
+
+        <!-- Methodology Info -->
+        <div class="card"
+            style="margin-bottom: 2rem; background: rgba(30, 41, 59, 0.5); border: 1px solid var(--border-color);">
+            <div style="display: flex; gap: 1rem;">
+                <div style="color: var(--text-secondary);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Rule-Based Methodology</h3>
+                    <p class="text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                        This analysis follows a reproducible, rule-based methodology aligned with ICMJE, COPE, WAME,
+                        CONSORT, PRISMA, and DOAJ standards. The evaluation uses 5 standardized dimensions with explicit
+                        scoring rules to ensure consistency across analyses.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Dimensions -->
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Detailed Analysis by Dimension</h3>
+        <div id="dimensions-container" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Dimensions will be injected here -->
+        </div>
+
     </main>
 
     <script src="/js/app.js"></script>
@@ -89,7 +211,37 @@
             window.location.href = '/dashboard.html';
         }
 
-        // Check for Predatory Journal
+        // --- Header & Paper Info ---
+        const date = new Date(data.upload_date || new Date()); // Fallback if upload_date missing
+        document.getElementById('analysis-date').textContent = `Analyzed on ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+        // Metadata
+        const meta = data.full_result.evidence.metadata || {};
+        document.getElementById('paper-title').textContent = meta.title || data.filename;
+        document.getElementById('paper-authors').textContent = meta.authors || "Unknown Authors";
+        document.getElementById('paper-journal').textContent = meta.journal || "Unknown Journal";
+        document.getElementById('paper-journal').textContent = meta.journal || "Unknown Journal";
+        document.getElementById('paper-year').textContent = meta.year || "Unknown Year";
+
+        // --- Predatory Status Badge ---
+        const predStatus = document.getElementById('paper-predatory-status');
+        const predCheck = data.full_result.evidence.predatory_check;
+
+        if (predCheck && predCheck.predatory_flag) {
+            predStatus.textContent = "Predatory Detected";
+            predStatus.className = "badge badge-high";
+            predStatus.style.backgroundColor = "#fee2e2";
+            predStatus.style.color = "#ef4444";
+            predStatus.style.border = "1px solid #ef4444";
+        } else {
+            predStatus.textContent = "Predatory Check: Safe";
+            predStatus.className = "badge badge-low";
+            predStatus.style.backgroundColor = "#dcfce7";
+            predStatus.style.color = "#166534";
+            predStatus.style.border = "1px solid #166534";
+        }
+
+        // --- Predatory Check ---
         if (data.full_result.evidence.predatory_check && data.full_result.evidence.predatory_check.predatory_flag) {
             const alertBox = document.getElementById('predatory-alert');
             const details = document.getElementById('predatory-details');
@@ -97,53 +249,142 @@
             details.textContent = `This paper appears to be published in a predatory journal. ${data.full_result.evidence.predatory_check.details}`;
         }
 
-        // Populate Data
-        document.getElementById('filename').textContent = data.filename;
-        document.getElementById('date').textContent = new Date().toLocaleDateString();
+        // --- Overall Risk ---
+        const score = data.score;
+        const riskLevel = data.overall_risk; // low, medium, high
 
-        const badge = document.getElementById('risk-badge');
-        badge.textContent = `${data.overall_risk.toUpperCase()} RISK`;
-        badge.classList.add(`badge-${data.overall_risk}`);
+        const riskTitle = document.getElementById('risk-title');
+        const riskBadge = document.getElementById('risk-badge');
+        const riskIcon = document.getElementById('risk-icon');
+        const scoreVal = document.getElementById('score-val');
 
-        document.getElementById('score-val').textContent = data.score;
+        scoreVal.textContent = score;
+
+        // Capitalize risk level
+        const riskDisplay = riskLevel.charAt(0).toUpperCase() + riskLevel.slice(1);
+        riskTitle.textContent = `${riskDisplay} Risk`;
+        riskBadge.textContent = riskDisplay;
+
+        // Colors
+        let color = '#10b981'; // low
+        if (riskLevel === 'medium') color = '#f59e0b';
+        if (riskLevel === 'high') color = '#ef4444';
+
+        riskTitle.style.color = 'white'; // Keep white for title text usually, or match design
+        riskBadge.className = `badge badge-${riskLevel}`;
+        riskIcon.setAttribute('stroke', color);
+
         document.getElementById('summary').textContent = data.summary;
 
-        const rulesList = document.getElementById('rules-list');
-        if (data.full_result.rules_triggered.length > 0) {
-            rulesList.innerHTML = data.full_result.rules_triggered.map(r => `<li>${r}</li>`).join('');
-        } else {
-            rulesList.innerHTML = '<li>No specific high-risk rules triggered.</li>';
-        }
-
-        // Dimensions
-        const dimGrid = document.getElementById('dimensions-grid');
-        dimGrid.innerHTML = data.full_result.categories.map(cat => `
-            <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px;">
-                <div style="font-size: 0.9rem; color: var(--text-secondary);">${cat.name}</div>
-                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">${cat.score}</div>
-            </div>
-        `).join('');
-
-        // Chart
+        // --- Chart ---
         const ctx = document.getElementById('scoreChart').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['Risk', 'Safety'],
                 datasets: [{
-                    data: [data.score, 100 - data.score],
-                    backgroundColor: [
-                        data.score > 66 ? '#ef4444' : data.score > 33 ? '#f59e0b' : '#10b981',
-                        '#e2e8f0'
-                    ],
-                    borderWidth: 0
+                    data: [score, 100 - score],
+                    backgroundColor: [color, '#334155'], // Darker background for empty part
+                    borderWidth: 0,
+                    borderRadius: 20,
+                    cutout: '85%'
                 }]
             },
             options: {
-                cutout: '80%',
-                plugins: { legend: { display: false } }
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                animation: { animateScale: true, animateRotate: true }
             }
         });
+
+        // --- Dimensions ---
+        const container = document.getElementById('dimensions-container');
+
+        data.full_result.categories.forEach((cat, index) => {
+            const catRisk = cat.risk_level || 'low';
+            let catColor = '#10b981';
+            if (catRisk === 'medium') catColor = '#f59e0b';
+            if (catRisk === 'high') catColor = '#ef4444';
+
+            // Icon based on risk (simplified)
+            let icon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${catColor}" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>`; // Check
+            if (catRisk === 'high') {
+                icon = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${catColor}" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`; // X
+            }
+
+            const evidenceHtml = cat.evidence_found && cat.evidence_found.length > 0
+                ? cat.evidence_found.map((e, i) => `<div style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem;"><span style="color: var(--primary-color); font-weight: 700;">${i + 1}.</span> <span>${e}</span></div>`).join('')
+                : '<div style="color: var(--text-secondary);">No specific evidence found.</div>';
+
+            const rulesHtml = cat.rules_applied && cat.rules_applied.length > 0
+                ? cat.rules_applied.join('<br>')
+                : 'Standard scoring rules applied.';
+
+            const html = `
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="background: ${catColor}20; padding: 0.75rem; border-radius: 12px;">
+                                ${icon}
+                            </div>
+                            <div>
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.25rem;">${index + 1}. ${cat.name}</h3>
+                                <p class="text-secondary" style="font-size: 0.9rem;">${getDimensionDesc(cat.name)}</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 1.5rem; font-weight: 700;">${cat.score}</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">/ 100</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div style="height: 6px; background: #334155; border-radius: 3px; margin-bottom: 1rem; overflow: hidden;">
+                        <div style="width: ${cat.score}%; height: 100%; background: ${catColor}; border-radius: 3px;"></div>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <span class="badge badge-${catRisk}">${catRisk.toUpperCase()} RISK</span>
+                    </div>
+
+                    <!-- Evidence Box -->
+                    <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid var(--primary-color); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; color: var(--text-primary);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            <span style="font-weight: 600;">Evidence Found (${cat.evidence_found ? cat.evidence_found.length : 0}):</span>
+                        </div>
+                        <div style="font-size: 0.95rem; color: #cbd5e1;">
+                            ${evidenceHtml}
+                        </div>
+                    </div>
+
+                    <!-- Rules Box -->
+                    <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid #b45309; border-radius: 8px; padding: 1rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; color: var(--text-primary);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span style="font-weight: 600;">Rules Applied:</span>
+                        </div>
+                        <div style="font-size: 0.95rem; color: #cbd5e1;">
+                            ${rulesHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', html);
+        });
+
+        function getDimensionDesc(name) {
+            const map = {
+                "Disclosure & Funding Transparency": "Evaluation of COI declarations and funding source transparency",
+                "Funding-Outcome Alignment": "Relationship between funding sources and study results",
+                "Author-Institution-Sponsor Network": "Connections between authors, institutions, and sponsors",
+                "Journal / Editorial Integrity": "Assessment of publication venue quality and practices",
+                "Textual Bias & Reporting Quality": "Language bias and adherence to reporting standards"
+            };
+            return map[name] || "Analysis of this dimension";
+        }
+
     </script>
 </body>
 

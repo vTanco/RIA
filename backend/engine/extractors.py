@@ -68,8 +68,29 @@ class MetadataExtractor:
             "journal": self._extract_journal(),
             "issn": self._extract_issn(),
             "doi": self._extract_doi(),
-            "publisher": self._extract_publisher()
+            "publisher": self._extract_publisher(),
+            "authors": self._extract_authors(),
+            "year": self._extract_year()
         }
+
+    def _extract_authors(self) -> str:
+        # Heuristic: Look for lines that look like lists of names near the top
+        # This is difficult without NER, but we can try simple heuristics
+        # e.g., "By [Name], [Name]" or just lines with comma separated capitalized words
+        
+        # Very simple placeholder for now
+        for line in self.lines[:10]:
+            if "By " in line:
+                return line.replace("By ", "").strip()
+        return "Unknown Authors"
+
+    def _extract_year(self) -> str:
+        # Look for 4 digit years in the first page
+        matches = re.findall(r"(20[0-2][0-9]|19[0-9]{2})", self.text[:2000])
+        if matches:
+            # Return the most recent year found, assuming it's the pub year
+            return max(matches)
+        return "2024"
 
     def _extract_title(self) -> str:
         # Heuristic: First non-empty line that isn't a header/page number

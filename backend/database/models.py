@@ -39,5 +39,6 @@ class PredatoryJournal(Base):
     issn = Column(String, index=True, nullable=True)
     publisher = Column(String, index=True, nullable=True)
     source = Column(String) # beall, predatoryjournals, etc.
+    entity_type = Column(String, default="journal") # journal, publisher
     url = Column(String, nullable=True)
     last_updated = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
