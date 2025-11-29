@@ -110,6 +110,8 @@ python3 backend/scripts/scrape_issn.py
 For more detailed information, please refer to:
 -   [Developer Guide](DEVELOPER_GUIDE.md)
 -   [PDF Documentation](Research_Integrity_Project_Guide.pdf)
+-   [Technical Deep Dive Presentation](RESOURCES/Research_Integrity_technical_Deep_Dive.pdf)
+-   [Promo Video](RESOURCES/Research_Integrity_Project_promo_video-EN.mp4)
 
 ---
 
