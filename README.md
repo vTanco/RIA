@@ -1,100 +1,118 @@
-# Research Integrity Project
+# 🛡️ Research Integrity Project
 
-The **Research Integrity Project** is a web application designed to help researchers and institutions verify the integrity of scientific journals and publishers. It provides tools to detect predatory practices, analyze conflicts of interest, and ensure compliance with ethical standards.
+![Project Banner](RESOURCES/project_architecture_infographic.png)
 
-## Features
+> **Empowering scientific integrity through AI-driven analysis and real-time data verification.**
 
-- **Predatory Journal Detection**: Analyze journals against a comprehensive database of known predatory publishers and journals.
-- **Conflict of Interest Analysis**: AI-powered analysis of potential conflicts of interest in research papers.
-- **ISSN Verification**: Automated verification of Online and Print ISSNs.
-- **User Dashboard**: Manage analysis history and reports.
-- **Authentication**: Secure login and registration system.
+![Python](https://img.shields.io/badge/Python-3.13%2B-blue?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![OpenAI](https://img.shields.io/badge/AI-OpenAI%20GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-## Tech Stack
+---
 
-- **Backend**: Python 3.13+, FastAPI, SQLAlchemy, SQLite.
-- **Frontend**: HTML5, CSS3, JavaScript (served statically by FastAPI).
-- **AI/ML**: OpenAI API for text analysis and summarization.
-- **Database**: SQLite (`ria.db`).
+## 📖 Overview
 
-## Prerequisites
+The **Research Integrity Project** is a cutting-edge web application designed to safeguard the quality of scientific research. By leveraging advanced AI and a comprehensive database of predatory publishers, it provides researchers and institutions with the tools they need to verify journal legitimacy and analyze potential conflicts of interest.
 
-- Python 3.13 or higher.
-- `pip` (Python package manager).
-- OpenAI API Key (for AI features).
+## ✨ Key Features
 
-## Installation
+![Key Features Infographic](RESOURCES/project_features_infographic_en.png)
 
-1.  **Clone the repository:**
+-   **🔍 Predatory Journal Detection**: Instantly check journals against a massive, constantly updated database of known predatory entities.
+-   **🤖 AI-Powered COI Analysis**: Upload a PDF and let our AI engine analyze funding sources, affiliations, and disclosures to calculate a risk score.
+-   **🆔 ISSN Verification**: Automated validation of Online and Print ISSNs to ensure journal authenticity.
+-   **📊 Interactive Dashboard**: Track your analysis history and manage reports in a sleek, user-friendly interface.
+-   **📄 PDF Reports**: Generate detailed, professional reports of your analyses for documentation and sharing.
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Backend** | ![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white) **FastAPI** | High-performance async API handling core logic and database interactions. |
+| **Frontend** | ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white) **JS** | Responsive, static frontend served directly by FastAPI. |
+| **Database** | ![SQLite](https://img.shields.io/badge/-SQLite-003B57?logo=sqlite&logoColor=white) **SQLAlchemy** | Robust relational data storage for users, analyses, and journal data. |
+| **AI Engine** | ![OpenAI](https://img.shields.io/badge/-OpenAI-412991?logo=openai&logoColor=white) | GPT-4o integration for semantic analysis and risk summarization. |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+-   Python 3.13+
+-   `pip`
+-   OpenAI API Key
+
+### Installation
+
+1.  **Clone the repository**
     ```bash
     git clone <repository-url>
     cd RIA
     ```
 
-2.  **Create a virtual environment (recommended):**
+2.  **Set up Virtual Environment**
     ```bash
     python3 -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    source venv/bin/activate  # Windows: venv\Scripts\activate
     ```
 
-3.  **Install dependencies:**
+3.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
 
-## Configuration
-
-1.  Create a `.env` file in the root directory (copy from `.env.example` if available, or use the template below):
-
+4.  **Configure Environment**
+    Create a `.env` file:
     ```env
-    # Core
-    SECRET_KEY=your_secret_key_here
-    
-    # AI Services
-    OPENAI_API_KEY=sk-...
-
-    # Social Login (Optional)
-    GOOGLE_CLIENT_ID=...
-    GOOGLE_CLIENT_SECRET=...
+    SECRET_KEY=your_secure_secret
+    OPENAI_API_KEY=sk-your-openai-key
     ```
 
-## Running the Application
+### Running the App
 
-1.  **Start the server:**
-    ```bash
-    uvicorn backend.main:app --reload
-    ```
+```bash
+uvicorn backend.main:app --reload
+```
+Access the dashboard at: `http://127.0.0.1:8000`
 
-2.  **Access the application:**
-    Open your browser and navigate to `http://127.0.0.1:8000`.
+---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 RIA/
-├── backend/                # Python Backend
-│   ├── api/                # API Endpoints (Routes)
-│   ├── core/               # Configuration & Security
-│   ├── database/           # Database Models & Session
-│   ├── engine/             # Core Logic (Scorer, LLM, etc.)
-│   ├── schemas/            # Pydantic Models (Data Validation)
-│   ├── scripts/            # Utility Scripts (Scraping, Seeding)
-│   └── main.py             # Application Entry Point
-├── frontend/               # Static Frontend Assets
-│   ├── css/                # Stylesheets
-│   ├── js/                 # JavaScript Logic
-│   └── *.html              # HTML Pages
-├── RESOURCES/              # Data Resources (Excel lists, etc.)
-├── ria.db                  # SQLite Database
-└── requirements.txt        # Python Dependencies
+├── 🧠 backend/          # Core Logic & API
+│   ├── engine/          # Scorer, LLM, & Detectors
+│   ├── api/             # REST Endpoints
+│   └── database/        # Models & Schemas
+├── 🎨 frontend/         # UI & Assets
+├── 📚 RESOURCES/        # Data & Infographics
+└── 📄 ria.db            # Database File
 ```
 
-## Database & Scripts
+## 🕷️ Data Ingestion
 
-- **Database Initialization**: The database tables are automatically created when the application starts.
-- **Data Ingestion**:
-    - The system uses `backend/scripts/scrape_issn.py` to generate the initial database of journals and publishers from Excel files in `RESOURCES/`.
-    - To run the scraper:
-      ```bash
-      python3 backend/scripts/scrape_issn.py
-      ```
+The system includes a powerful scraper to populate the predatory journal database.
+
+```bash
+python3 backend/scripts/scrape_issn.py
+```
+*Note: This script merges data from Excel resources and enriches it with ISSNs found via web scraping.*
+
+---
+
+## 📚 Documentation
+
+For more detailed information, please refer to:
+-   [Developer Guide](DEVELOPER_GUIDE.md)
+-   [PDF Documentation](Research_Integrity_Project_Guide.pdf)
+
+---
+
+<p align="center">
+  Made with ❤️ for Science
+</p>
