@@ -7,6 +7,8 @@ from backend.database import models # Import models to register them with Base
 
 # Create tables
 Base.metadata.create_all(bind=engine)
+from backend.database.session import predatory_engine, PredatoryBase
+PredatoryBase.metadata.create_all(bind=predatory_engine)
 
 app = FastAPI(title=settings.PROJECT_NAME)
 

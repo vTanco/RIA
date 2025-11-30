@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     
     # Database
     SQLALCHEMY_DATABASE_URI: str = "sqlite:///./ria.db"
+    PREDATORY_DATABASE_URI: str = "sqlite:///./predatory.db"
 
     # External Services
     OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")

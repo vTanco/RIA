@@ -4,10 +4,11 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any, List, Tuple
 
 class COIScorer:
-    def __init__(self, text: str, db: Session = None):
+    def __init__(self, text: str, db: Session = None, predatory_db: Session = None):
         self.extractor = EvidenceExtractor(text)
         self.metadata_extractor = MetadataExtractor(text)
         self.db = db
+        self.predatory_db = predatory_db
         self.evidence = {}
         self.rules_triggered = []
         self.metadata = {}
@@ -173,8 +174,8 @@ class COIScorer:
         evidence = []
         rules = []
         
-        if self.db:
-            detector = PredatoryJournalDetector(self.db)
+        if self.predatory_db:
+            detector = PredatoryJournalDetector(self.predatory_db)
             result = detector.detect(self.metadata)
             
             if result["predatory_flag"]:

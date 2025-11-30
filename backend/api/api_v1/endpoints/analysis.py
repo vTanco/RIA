@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import shutil
 import os
-from backend.database.session import get_db
+from backend.database.session import get_db, get_predatory_db
 from backend.database.models import User, Analysis
 from backend.schemas.api import AnalysisResponse
 from backend.api import deps
@@ -18,6 +18,7 @@ router = APIRouter()
 async def analyze_pdf(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
+    predatory_db: Session = Depends(get_predatory_db),
     current_user: User = Depends(deps.get_current_user)
 ):
     # Save temp file
@@ -30,7 +31,7 @@ async def analyze_pdf(
         text, file_hash = extract_text_from_pdf(temp_path)
         
         # Score
-        scorer = COIScorer(text, db=db)
+        scorer = COIScorer(text, db=db, predatory_db=predatory_db)
         result = scorer.compute_score()
         
         # Summarize
@@ -71,9 +72,10 @@ from backend.engine.predatory_updater import PredatoryJournalUpdater
 @router.post("/admin/update-predatory-list")
 def update_predatory_list(
     db: Session = Depends(get_db),
+    predatory_db: Session = Depends(get_predatory_db),
     current_user: User = Depends(deps.get_current_user)
 ):
     # In a real app, check for admin role
-    updater = PredatoryJournalUpdater(db)
+    updater = PredatoryJournalUpdater(predatory_db)
     count = updater.update_database()
     return {"message": f"Updated {count} predatory journals"}
